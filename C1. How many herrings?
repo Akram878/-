@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cmath>
+
+
+
+
+
+using namespace std;
+
+bool isTrigonometric (long double n)
+{
+    return sqrt(n) == int(sqrt(n));
+}
+
+bool findn1(long double n) {
+    return isTrigonometric (n * 8 + 1);
+}
+
+bool findn2(long double n) {
+    long double Trigo;
+    for (long long k = (sqrt(8 * n + 1) - 1) / 2; k > 0; --k) {
+        Trigo = n - (k * (k + 1) / 2);
+
+        if (isTrigonometric (Trigo * 8 + 1))
+            return true;
+    }
+
+    return false;
+}
+
+int main() {
+    long double N;
+    cin >> N;
+
+    if (findn1(N)) cout << 1;
+    else if (findn2(N)) cout << 2;
+    else cout << 3;
+}
