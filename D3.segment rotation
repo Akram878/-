@@ -1,0 +1,45 @@
+#define _USE_MATH_DEFINES
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+
+
+
+
+using namespace std;
+
+struct Point {
+    double x;
+    double y;
+};
+
+Point rotatePoint(Point point, Point center, double rad) {
+
+
+
+    double rotate_X = center.x + ((point.x - center.x) *  cos(rad) - (point.y - center.y) * sin(rad));
+    double rotate_Y = center.y + ((point.x - center.x) * sin(rad) + (point.y - center.y) *  cos(rad));
+
+    return { rotate_X, rotate_Y };
+}
+
+int main() {
+    ifstream input("input.txt");
+    ofstream output("output.txt");
+
+    Point a, b, o;
+    double fai;
+    input >> a.x >> a.y >> b.x >> b.y >> o.x >> o.y >> fai;
+
+    double rad_fai = fai * M_PI / 180.0;
+
+    Point R_A = rotatePoint(a, o, rad_fai);
+    Point R_B = rotatePoint(b, o, rad_fai);
+
+    output << fixed << setprecision(9)<< R_A.x << " " << R_A.y << " " << R_B.x << " " << R_B.y << endl;
+
+    input.close();
+    output.close();
+    return 0;
+}
