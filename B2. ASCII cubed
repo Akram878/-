@@ -3,80 +3,217 @@
 #include <fstream>
 
 using namespace std;
-void drawParallelepiped(int W, int H, int D, int W1, int H1, int D1){
 
-    int p1 =2*D ;
+
+
+
+
+     //explain:
+   /*  for (int d=0 ; d <= 2 ; d++)
+    {
+        for(int h = d + (3*y) + ((2*D)-(2*z)) ; h <= 3 + d + (3*y) +((2*D)-(2*z)) ; h++)
+        {
+            for (int w= (2-d)  + shifty ; w <= 4 + (2-d) + shifty ; w++)
+            {
+                 if(d%2!=0)
+                 {
+                     if ((h - d - (3*y)-((2*D)-(2*z)))%3==0)
+                     {
+                         if ((w-(2-d) - shifty)%4==0)
+                         {
+                             result[h][w]= 47;
+                         }
+                         else
+                         {
+                              result[h][w]= ' ';
+                         }
+                     }
+                     else
+                     {
+                         result[h][w]= ' ';
+                     }
+                 }
+                 else
+                 {
+                     if ((h - d - (3*y)-((2*D)-(2*z)))%3==0)
+                     {
+                         if ((w-(2-d) - shifty)%4==0)
+                         {
+                             result[h][w]= 43;
+                         }
+                         else
+                         {
+                             result[h][w]= 45;
+                         }
+                     }
+                     else
+                     {
+                         if ((w-(2-d) - shifty)%4==0)
+                         {
+                             result[h][w]= 124;
+                         }
+                         else
+                         {
+                              result[h][w]= ' ';
+                         }
+                     }
+                 }
+            }
+        }
+    }
+
+======================================================================================================*/
+
+
+
+
+
+
+
+vector<vector<char>> drawParallelepiped(int W, int H, int D, int W1, int H1, int D1){
+
 
 
     int rows = (3 * H) + (2*D) + 1 ;
     int cols = (4 * W) + (2*D) + 1 ;
 
-
-
-
-
     vector<vector<char>> result(rows,vector<char>(cols,(' ')));
 
 
 
-
-    ofstream output("output.txt");
-
-    for(int d=0; d<=p1 ; d++){
-
-        for(int m=d; m < (rows-(p1-d));m++)
+    for(int z=D-1 ; z >=0 ; z--)
+    {
+        for(int y=H-1; y>=0; y--)
         {
-            for(int n =(p1-d); n < cols-(p1-(p1-d)) ; n++)
+            for(int x=0;x<W ;x++)
+
+            {
+                if(!(y<H1&& x >= W-W1 && z<D1))
                 {
+                      int shiftx , shifty;
+
+    shiftx=(3*y) +(2*(D-1)-(2*z));
+    shifty=(4*x)+(2*z);
 
 
-                    if(d%2==0)
-                    {
-                        if((m-d)%3==0 && ((4*W)-(n-(p1-d)))%4==0 )
-                        {
-                             result[m][n]='+';
-                        }
-                        else if((m-d)%3==0 && ((4*W)-(n-(p1-d)))%4!=0){
-                                 result[m][n]='-';
-                        }
-                         else if((m-d)%3!=0 && ((4*W)-(n-(p1-d)))%4==0){
-                                 result[m][n]='|';
-                        }
-                         else if((m-d)%3!=0 && ((4*W)-(n-(p1-d)))%4!=0){
-                                 result[m][n]=' ';
-                        }
+//========================================================================
 
-                    }
-
-                    else if (d%2!=0)
-                    {
-                        if((m-d)%3==0 && ((4*W)-(n-(p1-d)))%4==0 )
-                        {
-                             result[m][n]='/';
-                        }
-                        else {
-                                 result[m][n]=' ';
-                        }
+     result[shiftx][2 + shifty]= 43;
+     result[shiftx][6 + shifty]= 43;
+     result[3 + shiftx][2 + shifty]= 43;
+     result[3 + shiftx][6 + shifty]= 43;
 
 
-                    }
+     result[shiftx][3 + shifty]= 45;
+     result[shiftx][4 + shifty]= 45;
+     result[shiftx][5 + shifty]= 45;
+     result[3 + shiftx][3 + shifty]= 45;
+     result[3 + shiftx][4 + shifty]= 45;
+     result[3 + shiftx][5 + shifty]= 45;
+
+
+     result[1 + shiftx][2 + shifty]= 124;
+     result[1 + shiftx][6 + shifty]= 124;
+     result[2 + shiftx][2 + shifty]= 124;
+     result[2 + shiftx][6 + shifty]= 124;
+
+
+     result[1 + shiftx][3 + shifty]= ' ';
+     result[1 + shiftx][4 + shifty]= ' ';
+     result[1 + shiftx][5 + shifty]= ' ';
+     result[2 + shiftx][3 + shifty]= ' ';
+     result[2 + shiftx][4 + shifty]= ' ';
+     result[2 + shiftx][5 + shifty]= ' ';
+
+
+    //=======================================================================
+
+     result[1 + shiftx][1 + shifty]= 47;
+     result[1 + shiftx][5 + shifty]= 47;
+     result[4 + shiftx][1 + shifty]= 47;
+     result[4 + shiftx][5 + shifty]= 47;
+
+
+     result[1 + shiftx][2 + shifty]= ' ';
+     result[1 + shiftx][3 + shifty]= ' ';
+     result[1 + shiftx][4 + shifty]= ' ';
+     result[3 + shiftx][2 + shifty]= ' ';
+     result[3 + shiftx][3 + shifty]= ' ';
+     result[3 + shiftx][4 + shifty]= ' ';
+
+     result[1 + shiftx][2 + shifty]= ' ';
+     result[1 + shiftx][3 + shifty]= ' ';
+     result[1 + shiftx][4 + shifty]= ' ';
+     result[4 + shiftx][2 + shifty]= ' ';
+     result[4 + shiftx][3 + shifty]= ' ';
+     result[4 + shiftx][4 + shifty]= ' ';
+
+     result[2 + shiftx][1 + shifty]= ' ';
+     result[2 + shiftx][5 + shifty]= ' ';
+     result[3 + shiftx][1 + shifty]= ' ';
+     result[3 + shiftx][5 + shifty]= ' ';
+
+     //======================================================================
+
+
+     result[2 + shiftx][shifty]= 43;
+     result[2 + shiftx][4 + shifty]= 43;
+     result[5 + shiftx][shifty]= 43;
+     result[5 + shiftx][4 + shifty]= 43;
+
+
+     result[2 + shiftx][1 + shifty]= 45;
+     result[2 + shiftx][2 + shifty]= 45;
+     result[2 + shiftx][3 + shifty]= 45;
+     result[5 + shiftx][1 + shifty]= 45;
+     result[5 + shiftx][2 + shifty]= 45;
+     result[5 + shiftx][3 + shifty]= 45;
+
+
+     result[3 + shiftx][shifty]= 124;
+     result[3 + shiftx][4 + shifty]= 124;
+     result[4 + shiftx][shifty]= 124;
+     result[4 + shiftx][4 + shifty]= 124;
+
+     result[3 + shiftx][1 + shifty]= ' ';
+     result[3 + shiftx][2 + shifty]= ' ';
+     result[3 + shiftx][3 + shifty]= ' ';
+     result[4 + shiftx][1 + shifty]= ' ';
+     result[4 + shiftx][2 + shifty]= ' ';
+     result[4 + shiftx][3 + shifty]= ' ';
+
+     //========================================================================
+
                 }
+
+
+            }
         }
+
     }
 
 
+    for(int i = 0; i < 2*D;i++)
+    {
+        for(int j= 0; j < 2*D - i;j++)
+        {
+           result[i][j]='.';
+        }
+    }
+
+    return result;
+}
 
 
 
+void print(vector<vector<char>> r)
+{
+     ofstream output("output.txt");
+     for(int i = 0; i < r.size() ; i++) {
 
+        for (int j = 0; j < r[i].size(); j++) {
 
-
-
-    for(int i = 0; i < rows; i++) {
-
-        for (int j = 0; j < cols; j++) {
-
-            output << result[i][j];
+            output << r[i][j];
         }
         output << endl;
     }
@@ -84,6 +221,7 @@ void drawParallelepiped(int W, int H, int D, int W1, int H1, int D1){
 
 
 }
+
 
 
 
@@ -95,7 +233,8 @@ int main() {
     input.close();
 
 
-    drawParallelepiped(W, H, D, W1, H1, D1);
+    vector<vector<char>> i = drawParallelepiped(W, H, D, W1, H1, D1);
+    print(i);
 
 
     return 0;
