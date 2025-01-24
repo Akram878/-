@@ -123,3 +123,60 @@ int main(){
 
     return 0;
 }
+
+or :
+
+#include <fstream>  
+#include <stack>  
+using namespace std;  
+void swap(int* a, int* b) {  
+    int temp = *a;  
+    *a = *b;  
+    *b = temp;  
+}  
+void bubbleSort(int arr[], int n) {  
+    for (int i = 0; i < n - 1; i++) {  
+        for (int j = 0; j < n - i - 1; j++) {  
+            if (arr[j] > arr[j + 1]) {  
+                swap(&arr[j], &arr[j + 1]);  
+            }  
+        }  
+    }  
+}  
+int main() {  
+    int n;  
+    ifstream fin;  
+    fin.open("linear.in.txt");  
+    ofstream fout("linear.out.txt");  
+    fin >> n;  
+    stack<int> px;  
+    int* times = new int[n];  
+    int timesCount = 0;  
+    for (int i = 0; i < n; i++) {  
+        int x, naprav;  
+        fin >> x >> naprav;  
+        if (naprav == 1) {  
+            px.push(x);  
+        }  
+        else {  
+            if (!px.empty()) {  
+                times[timesCount++] = (x - px.top() + 1) / 2;  
+                px.pop();  
+            }  
+        }  
+    }  
+    bubbleSort(times, timesCount);  
+    int zapros;  
+    int cur = 0;  
+    fin >> zapros;  
+    for (int iz = 0; iz < zapros; iz++) {  
+        int time;  
+        fin >> time;  
+        while (cur < timesCount && times[cur] <= time) {  
+            cur++;  
+        }  
+        fout << n - 2 * cur << endl;  
+    }  
+    delete[] times;  
+    return 0;  
+}
