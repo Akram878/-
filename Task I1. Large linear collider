@@ -1,0 +1,125 @@
+#include <fstream>
+#include <iostream>
+using namespace std;
+
+struct stack {
+        long *check;
+        int len;
+        int t_ind;
+        
+        stack(int size){
+            len = size;
+            check = new long[len];
+            t_ind = -1;
+        }
+
+        ~stack() {
+            delete[] check;
+        }
+
+        void push(long value){
+            if (t_ind < len - 1){
+                check[++t_ind] = value;
+            }
+        }
+
+        void pop(){
+            if (t_ind >= 0){
+                --t_ind;
+            }
+        }
+
+        long top(){
+            if (t_ind >= 0){
+                return check[t_ind];
+            }
+            return -1;
+        }
+
+        bool empty(){
+            if (t_ind == -1){
+                return true;
+            }
+            return false;
+        }
+};
+
+void QuickSort(long arr[], int low, int high) {
+    if (low >= high) {
+        return;
+    }
+    int pivot = arr[low];
+    int lt = low;
+    int gt = high;
+    int i = low;
+    while (i <= gt) {
+        if (arr[i] < pivot) {
+            swap(arr[lt], arr[i]);
+            lt++;
+            i++;
+        } else if (arr[i] > pivot) {
+            swap(arr[i], arr[gt]);
+            gt--;
+        } else {
+            i++;
+        }
+    }
+    QuickSort(arr, low, lt - 1);
+    QuickSort(arr, gt + 1, high);
+}
+
+int BinSearch(long* arr, int size, long key) {
+    int left = 0;
+    int right = size;
+    while (left < right) {
+        int mid = (left + right) / 2;
+        if (arr[mid] <= key) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    return left; 
+}
+
+int main(){
+    ifstream ifile("linear.in");
+    ofstream ofile("linear.out");
+
+    int n;
+    ifile >> n;
+
+    stack stk(n);
+    long times[n/2], t;
+    int count = 0;
+    for (int i = 0; i < n; ++i){
+        long x;
+        short v;
+        ifile >> x >> v;
+        if (v == 1){
+            stk.push(x);
+        }
+        else{
+            if (!stk.empty()){
+                t = abs((stk.top() - x) / 2);
+                if (abs((stk.top() - x) % 2) != 0){
+                    t++;
+                }
+                times[count++] = t;
+                stk.pop();
+            }
+        }
+    }
+
+    QuickSort(times, 0, count - 1);
+
+    int m;
+    ifile >> m;
+
+    for (int i = 0; i < m; ++i){
+        ifile >> t;
+        ofile << n - 2 * BinSearch(times, count, t) << endl;
+    }
+
+    return 0;
+}
